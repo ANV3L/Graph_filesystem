@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
 
-#include "table.hpp"
+#include "../../STL/table.hpp"
 #include "structs.hpp"
-#include "files.hpp"
+#include "Files/files.hpp"
 
 /**
  * @brief Простая модель файловой системы с пользователями, группами и текущей директорией

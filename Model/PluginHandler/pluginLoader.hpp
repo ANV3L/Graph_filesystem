@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-#include "rootCommand.hpp"
+#include "../Commands/interface/rootCommand.hpp"
 #include "pluginParser.hpp"
 
 /**

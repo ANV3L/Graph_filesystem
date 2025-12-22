@@ -193,3 +193,24 @@ std::string LoadSystem::execute(const Command& cmd, FileSystem& filesys) {
 
     return "Loaded from " + inName;
 }
+
+std::string CatCommand::execute(const Command& cmd, FileSystem& filesys) {
+    
+    if (cmd.args.empty()){
+        throw std::invalid_argument("No name of file");
+    }
+
+    const std::string& filename = cmd.args[0];
+
+    auto cur = filesys.getCurrentDirectory();
+    if (!cur) throw std::runtime_error("no curdir");
+
+    auto f = cur->findByName(filename);
+    if (!f) throw std::invalid_argument("file not found");
+
+    auto reg = std::dynamic_pointer_cast<RegularFile>(f);
+    if (!reg) throw std::invalid_argument("is not a regular file");
+
+    return reg->getData();
+
+}

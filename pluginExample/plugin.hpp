@@ -1,10 +1,10 @@
 #pragma once
 
-#include <string>
-
 #include "../include/filesystem_for_plugin.hpp"
 
-class ReplaceCommand final : public RootCommand {
+#include <string>
+
+class testCommand final : public RootCommand {
 public:
     std::string execute(const Command& cmd, FileSystem& filesys) override;
 };

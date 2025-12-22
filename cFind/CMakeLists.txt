@@ -16,6 +16,7 @@ target_include_directories(TEST PRIVATE
 target_link_libraries(TEST PRIVATE GTest::gtest_main)
 gtest_discover_tests(TEST)
 
+# ---------------- START OF PLUGIN ----------------------
 
 set(PLUGIN_SRC
         replace_plugin.cpp
@@ -29,36 +30,10 @@ set_target_properties(replace_plugin PROPERTIES
         POSITION_INDEPENDENT_CODE ON
 )
 
-target_include_directories(replace_plugin PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_SOURCE_DIR}
-        ${COMMAND_DIR}/CommandManager
-        ${COMMAND_DIR}/interface
-        ${COMMAND_DIR}/impl/include
-        ${MODEL_DIR}/Filesystem
-        ${MODEL_DIR}/Filesystem/Files
-        ${STL_DIR}
-        ${COMMAND_DIR}/extraCommands
-        ${MODEL_DIR}/PlaginHandler
-)
+# ----------------- END OF PLUGIN -------------------------
 
 find_package(Threads REQUIRED)
 target_link_libraries(replace_plugin PRIVATE Threads::Threads)
-
-add_library(filesystem_obj OBJECT
-        ${MODEL_DIR}/Filesystem/filesys.cpp
-        ${MODEL_DIR}/Filesystem/Files/files.cpp
-)
-
-target_include_directories(filesystem_obj PRIVATE
-        ${MODEL_DIR}/Filesystem
-        ${MODEL_DIR}/Filesystem/Files
-        ${STL_DIR}
-)
-
-target_sources(replace_plugin PRIVATE
-        $<TARGET_OBJECTS:filesystem_obj>
-)
 
 find_package(TBB REQUIRED)
 

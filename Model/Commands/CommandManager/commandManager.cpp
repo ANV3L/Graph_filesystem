@@ -25,6 +25,7 @@ CommandManager::CommandManager() : cmds_{"Открыть"} {
     commands_.insert({"pwd", std::make_shared<PrintWorkingDirectory>()});
     commands_.insert({"lsRegular", std::make_shared<ListRegularFiles>()});
     commands_.insert({"cd", std::make_shared<ChangeDirectory>()});
+    commands_.insert({"cat", std::make_shared<CatCommand>()});
 
     aliases_.insert({"Вывести", std::make_shared<openReadFileCommand>()});
     aliases_.insert({"Переименовать", std::make_shared<RenameFileCommand>()});

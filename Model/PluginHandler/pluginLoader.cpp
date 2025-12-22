@@ -1,3 +1,5 @@
+#pragma once
+
 #include "pluginLoader.hpp"
 
 #include <dlfcn.h>

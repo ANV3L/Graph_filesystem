@@ -65,3 +65,12 @@ class ListUsersCommand final : public RootCommand {
 public:
     std::string execute(const Command& cmd, FileSystem& filesys) override;
 };
+
+
+/**
+ * @brief Команда вывода записи в файле
+ */
+class CatCommand final : public RootCommand {
+public:
+    std::string execute(const Command& cmd, FileSystem& filesys) override;
+};
