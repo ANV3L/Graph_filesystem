@@ -23,23 +23,14 @@ std::string ReplaceCommand::execute(const Command& cmd, FileSystem& filesys) {
 
     const std::string& filename = cmd.args[0];
 
-    auto cur = filesys.getCurrentDirectory();
-    if (!cur) throw std::runtime_error("no curdir");
-
-    auto f = cur->findByName(filename);
-    if (!f) throw std::invalid_argument("file not found");
-
-    auto reg = std::dynamic_pointer_cast<RegularFile>(f);
-    if (!reg) throw std::invalid_argument("is not a regular file");
-
     std::vector<std::string> rules;
     rules.reserve(cmd.args.size() - 1);
     for (size_t i = 1; i < cmd.args.size(); ++i)
         rules.push_back(cmd.args[i]);
 
-    std::string data = reg->getData();
+    std::string& data = filesys.getDataFromFile(filename);
+
     const size_t count = replace(data, rules);
-    reg->setData(data);
 
     return "replacements = " + std::to_string(count);
 }

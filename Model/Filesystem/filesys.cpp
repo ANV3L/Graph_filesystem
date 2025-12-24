@@ -62,3 +62,16 @@ std::string FileSystem::ListUsers() const {
 
     return result;
 }
+
+std::string& FileSystem::getDataFromFile(const std::string& filename){
+    auto cur = getCurrentDirectory();
+    if (!cur) throw std::runtime_error("no curdir");
+
+    auto f = cur->findByName(filename);
+    if (!f) throw std::invalid_argument("file not found");
+
+    auto reg = std::dynamic_pointer_cast<RegularFile>(f);
+    if (!reg) throw std::invalid_argument("is not a regular file");
+
+    return reg->getData();
+}

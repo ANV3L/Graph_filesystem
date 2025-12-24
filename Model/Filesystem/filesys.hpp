@@ -115,4 +115,14 @@ public:
      * @return Новый ID файла
      */
     uint64_t getNextFileID() { return nextFileID_++; }
+
+    /**
+     * @brief Возвращает ссылку на поле данных файла по имени из текущей директории
+     * @throw std::runtime_error("no curdir")
+     * @throw std::invalid_argument("file not found")
+     * @throw std::invalid_argument("is not a regular file")
+     * @return Ссылка на поле данных файла
+     */
+
+    [[nodiscard]] std::string& getDataFromFile(const std::string& filename);
 };
