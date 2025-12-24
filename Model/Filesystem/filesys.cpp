@@ -75,3 +75,17 @@ std::string& FileSystem::getDataFromFile(const std::string& filename){
 
     return reg->getData();
 }
+
+void FileSystem::createFile(const std::string& filename){
+
+    auto curd = getCurrentDirectory();
+
+    if (!curd) throw std::runtime_error("Can't get current directory.");
+
+    if (curd->findByName(filename)) throw std::runtime_error("File already exist");
+
+    uint64_t newID = getNextFileID();
+    const auto newFile = std::make_shared<RegularFile>(curd, newID, filename, getCurrentUser());
+
+    curd->addFile(newID, newFile);
+}

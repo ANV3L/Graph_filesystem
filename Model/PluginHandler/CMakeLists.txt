@@ -1,6 +1,3 @@
-
-
-
 add_library(pluginLoader.o OBJECT
         ${CMAKE_CURRENT_SOURCE_DIR}/pluginLoader.cpp
 )

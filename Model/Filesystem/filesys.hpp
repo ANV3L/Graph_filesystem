@@ -123,6 +123,10 @@ public:
      * @throw std::invalid_argument("is not a regular file")
      * @return Ссылка на поле данных файла
      */
-
     [[nodiscard]] std::string& getDataFromFile(const std::string& filename);
+
+    /**
+     * @brief Создаёт новый файл в текущей директории
+     */
+    void createFile(const std::string& filename);
 };
