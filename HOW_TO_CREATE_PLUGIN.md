@@ -31,6 +31,9 @@ filesys.getDataFromFile() += "Text" - Приписали что захотели
 
 #include <string>
 
+
+
+
 // DEFINE AREA START ---------------------------
 
 #define c_class_command_name _ // Напишите вместо "_" то, как вы бы хотели, чтобы назывался класс вашей команды
