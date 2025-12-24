@@ -27,11 +27,26 @@ filesys.getDataFromFile() += "Text" - Приписали что захотели
 ``` 
 #pragma once
 
-#include "include/filesystem_for_plugin.hpp" [ В этом файле вся совместимость с файловой системой, больше ничего подключать не нужно. ]
+#include "../include/filesystem_for_plugin.hpp"
 
 #include <string>
 
-class {Name of your command} final : public RootCommand {
+// DEFINE AREA START ---------------------------
+
+#define c_class_command_name _ // Напишите вместо "_" то, как вы бы хотели, чтобы назывался класс вашей команды
+
+#define c_command_name "Your command_name" // Напишите вместо "Your command_name" как бы вы хотели, чтобы команду звали
+
+#define c_alias_name "Your alias" // Напишите вместо "Your alias" как бы вы хотели, чтобы звали команду в карусели команд
+
+// DEFINE AREA END -----------------------------
+
+
+
+
+// Корреляция с файловой системой, тут ничего трогать не нужно
+
+class class_command_name final : public RootCommand {
 public:
     std::string execute(const Command& cmd, FileSystem& filesys) override;
 };
@@ -42,36 +57,39 @@ extern "C" {
     void destroy_plugin_command(void* cmd);
 }
 
+extern "C" bool get_plugin_data(PluginCommandInfo* out) {
+    if (!out) return false;
+    out->command_name = c_command_name;
+    out->alias_name   = c_alias_name;
+    return true;
+}
+
+extern "C" void* create_plugin_command() {
+    return static_cast<void*>(new class_command_name());
+}
+
+extern "C" void destroy_plugin_command(void* cmd) {
+    delete static_cast<class_command_name*>(cmd);
+}
+
 ```
- - Пропишите путь к filesystem_for_plugin.hpp и выберите имя класса команды, больше ничего делать не нужно
+ - Пропишите путь к filesystem_for_plugin.hpp и заполните DEFINE_AREA
 
  ### plugin.cpp
  ```
 #include "plugin.hpp"
 
-std::string { Имя вашей команды }::execute(const Command& cmd, FileSystem& filesys) {
+std::string class_command_name::execute(const Command& cmd, FileSystem& filesys) {
 
- [ Реализуете здесь логику работы команды ]
+    // Your command
 
-}
-
-
-
-extern "C" bool get_plugin_data(PluginCommandInfo* out) {
-    if (!out) return false;
-    out->command_name = "{ Желаемое имя команды }";
-    out->alias_name   = "{ Имя команды в карусели команд }";
-    return true;
-}
-
-extern "C" void* create_plugin_command() {
-    return static_cast<void*>(new { Имя класса вашего }());
-}
-
-extern "C" void destroy_plugin_command(void* cmd) {
-    delete static_cast<{ Имя класса вашего }*>(cmd);
 }
  ```
+
+ - Просто Напишите реализацию вашей команды
+ - filesys - вся работа с системой
+ - cmd.args - вектор строк, где перечислены все переданные вашей команде аргументы (Пример "filename first second" = {"filename", "first", "second"})
+ 
 
  ### CMakeLists.txt
  ```
@@ -89,7 +107,7 @@ set(PLUGIN_SRC
 add_library(plugin SHARED ${PLUGIN_SRC})
 
 set_target_properties(plugin PROPERTIES
-        OUTPUT_NAME "{ Имя вашего плагина }"
+        OUTPUT_NAME "{ Имя вашего плагина }" # Здесь напишите желаемое имя для плагина, по итогу там соберется lib{имя}.so
         POSITION_INDEPENDENT_CODE ON
 )
 
